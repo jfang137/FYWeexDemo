@@ -1,6 +1,6 @@
 <template>
-  <div @viewappear="viewappear" @clickrightitem="clickrightitem">
-    <list :class="[listClass]">
+  <div class="wrapper" :style="{'width':'750px','height':wrapperH}" @viewappear="viewappear" @clickrightitem="clickrightitem">
+    <list>
     <cell>
       <adv adId=153 :style="{'width':'750px','height':advHeight}" @advdidload="advdidload"></adv>
     </cell>
@@ -72,6 +72,17 @@
   var navigator = weex.requireModule('navigator')
 
   var modal = weex.requireModule('modal')
+
+  var deviceHeight = weex.config.env.deviceHeight
+  var deviceWidth = weex.config.env.deviceWidth
+
+  var wrapperH = 750 * deviceHeight / deviceWidth - 128
+
+  console.log('-----------' + weex.config.env.deviceModel)
+  if (weex && (weex.config.env.deviceModel === 'iPhone10,3' || weex.config.env.deviceModel === 'iPhone10,6')) {
+    wrapperH -= 40
+  }
+
   export default {
     data () {
       return {
@@ -81,6 +92,7 @@
         listClass: lc,
         colorList: colors,
         advHeight: '0px',
+        wrapperH:wrapperH + 'px',
       }
     },
     methods: {
@@ -133,14 +145,6 @@
   }
 </script>
 <style scoped>
-  .list {
-    background-color: #ffffff;
-    margin-bottom: 0wx;
-  }
-  .listIOS {
-    background-color: #ffffff;
-    margin-bottom: 64wx;
-  }
   .titleline {
     flex-direction: row;
     justify-content: space-between;
